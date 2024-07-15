@@ -8,8 +8,8 @@ dotenv.config();
 
 const app = express();
 const port = process.env.PORT || 4000;
-const POST_SESSION_URL = "https://script.google.com/macros/s/AKfycbx92sgpxAQ4TFtPmF-1hxFx9jVjqYr98pHFx_yZJyVBl1O-o5SlUURXq-aiBXOxKmHjUg/exec";
-const GET_DEVS_URL = "https://script.google.com/macros/s/AKfycbzt3L2SVBV7iKb0rTT8fSVfKYFPAO9y0Pe-tvCCvvN3e2BGOQs_K7r5401QaebtrPq5kA/exec";
+const POST_SESSION_URL = process.env.POST_SESSION_URL;
+const GET_DEVS_URL = process.env.GET_DEVS_URL;
 
 app.use(express.json());
 

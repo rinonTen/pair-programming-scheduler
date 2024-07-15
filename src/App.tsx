@@ -19,6 +19,8 @@ function getCurrentDateFormatted() {
   return `${day}-${month}-${year}`;
 }
 
+const BACKEND_URL = "https://pair-programming-scheduler.onrender.com";
+
 const handleSubmit = async(_previousState: FormState, formData: FormData) => {
     const name = formData.get('name');
     const email = formData.get('email');
@@ -28,8 +30,7 @@ const handleSubmit = async(_previousState: FormState, formData: FormData) => {
     const goal = formData.get('goal');
     const data = { name, email, date, startTime, endTime, goal }
     try {
-     const res = await axios.post('http://localhost:4000/api/send-data', data);
-      console.log("response", res);
+      await axios.post(`${BACKEND_URL}/api/send-data`, data);
       console.log('Form data submitted successfully!');
     } catch (error) {
       console.error('Error submitting form data:', error);
@@ -56,7 +57,7 @@ function App() {
   useEffect(() => {
     const getData = async () => {
       try {
-        const res = await axios.get('http://localhost:4000/api/get-developers');
+        const res = await axios.get(`${BACKEND_URL}/api/get-developers`);
         const devNames = await res.data.data;
         setDevelopers(devNames);
       } catch (error) {
