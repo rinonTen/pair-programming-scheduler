@@ -137,6 +137,18 @@ margin-top: 16px;
   background-color: rgba(0, 255, 255, 0.582);
 }
 
+.success_message {
+  color: green;
+}
+
+.success_message, .failing_message {
+  margin: 0;
+}
+
+.failing_message {
+  color: red;
+}
+
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
