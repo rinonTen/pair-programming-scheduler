@@ -1,0 +1,151 @@
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  font-weight: 500;
+  color: #646cff;
+  text-decoration: inherit;
+}
+
+a:hover {
+  color: #535bf2;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  place-items: center;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+main {
+  max-width: 500px;
+}
+
+.logo {
+  width: 250px;
+}
+
+.wave {
+  width: 50px;
+}
+
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+}
+
+h2 img {
+  margin-bottom: -12px;
+}
+
+h2 {
+  text-align: center;
+  margin: 0;
+  margin-bottom: 16px;
+}
+
+h2:nth-of-type(2) {
+  margin-bottom: 48px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  row-gap: 32px;
+}
+
+fieldset {
+  border: unset;
+  padding: 0;
+  margin: 0;
+  /* width: 100%; */
+}
+
+label {
+  display: block;
+  text-align: start;
+}
+
+input, select, textarea {
+  padding: 16px;
+  width: 100%;
+  max-width: -webkit-fill-available;
+}
+
+select option {
+margin-top: 16px;
+}
+
+.date_field {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  row-gap: 32px;
+}
+
+.date_field input {
+  max-width: 120px;
+}
+
+.time_field {
+  text-align: start;
+}
+
+.time_field input {
+  max-width: 98px;
+}
+
+.email_field.invalid input, .email_field.invalid input:focus {
+  border-color: red;
+}
+
+.email_field.invalid span {
+  color: red;
+  font-size: 12px;
+  display: block;
+  text-align: start;
+}
+
+
+.submit {
+  padding: 16px;
+  padding-inline: 32px;
+  background-color: rgba(0, 255, 255, 0.692);
+  color: #fff;
+  border-radius: 8px;
+  border-width: 0;
+  font-size: 16px;
+  align-self: flex-end;
+  cursor: pointer;
+}
+
+.submit:hover {
+  background-color: rgba(0, 255, 255, 0.582);
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    color: #213547;
+    background-color: #ffffff;
+  }
+  a:hover {
+    color: #747bff;
+  }
+  button {
+    background-color: #f9f9f9;
+  }
+}
