@@ -102,7 +102,7 @@ const [_formState, formSubmitAction ] = useActionState(handleSubmit as any, form
           <fieldset className={`email_field ${isInValidEmail ? 'invalid' : ''}`}>
             <label htmlFor="email">Enter your Onja Mail?</label>
             <input required onChange={handleFieldChange} type='email' name='email'/>
-            {isInValidEmail ? <span>You must use your Onja email address.</span> : ''}
+            {isInValidEmail ? <span>You must use your Onja email address which includes your name.</span> : ''}
           </fieldset>
           <fieldset>
             <label htmlFor="date">When do you plan to have a session? Please select a date and time</label>
