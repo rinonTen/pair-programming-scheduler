@@ -4,30 +4,22 @@ import axios from 'axios';
 
 interface FormState {
   name: string;
+  mentor: string;
   email: string;
   date: string;
-  from_time: string;
-  end_time: string;
-  goal: string;
+  dev_insight: string;
+  feedback: string;
 };
 
-function getCurrentDateFormatted() {
-  const date = new Date();
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-based, so we add 1
-  const day = String(date.getDate()).padStart(2, '0');
-  return `${day}-${month}-${year}`;
-}
-
-const BACKEND_URL = "https://pair-programming-scheduler.onrender.com";
-
+const BACKEND_URL = "http://localhost:4000";
+// https://pair-programming-scheduler.onrender.com
 const formInitialState = {
   name: '',
-  date: getCurrentDateFormatted(),
+  mentor: '',
+  date: '',
   email: '',
-  goal: '',
-  from_time: '02:00',
-  end_time: "03:00"
+  dev_insight: '',
+  feedback: ''
 };
 
 type OnChangeEvent = { target: { name: string; value: string; }};
@@ -36,15 +28,16 @@ function App() {
   const [formData, setFormData] = useState<FormState>(formInitialState);
   const [submissionStatus, setSubmissionStatus] = useState<"initial" | "submitting" | "submitted" | "failed">('initial');
   const [developers, setDevelopers] = useState<string[]>([])
-
+  const [mentorNames, setMentorNames] = useState<string[]>([])
   const handleSubmit = async(_previousState: FormState, formData: FormData) => {
     const name = formData.get('name');
+    const mentor = formData.get('mentor');
     const email = formData.get('email');
     const date = formData.get('date');
-    const startTime = formData.get('from_time');
-    const endTime = formData.get('end_time');
-    const goal = formData.get('goal');
-    const data = { name, email, date, startTime, endTime, goal }
+    const devInsight = formData.get('dev_insight');
+    const feedback = formData.get('feedback');
+
+    const data = { name, mentor, email, date, devInsight, feedback }
     setSubmissionStatus("submitting");
     try {
       await axios.post(`${BACKEND_URL}/api/send-data`, data);
@@ -61,8 +54,9 @@ const [_formState, formSubmitAction ] = useActionState(handleSubmit as any, form
     const getData = async () => {
       try {
         const res = await axios.get(`${BACKEND_URL}/api/get-developers`);
-        const devNames = await res.data.data;
-        setDevelopers(devNames);
+        const {devs, mentors} = await res.data;
+        setDevelopers(devs);
+        setMentorNames(mentors);
       } catch (error) {
         return error
       }
@@ -71,6 +65,7 @@ const [_formState, formSubmitAction ] = useActionState(handleSubmit as any, form
   }, [])
 
   const handleFieldChange = (e: OnChangeEvent) => {
+    setSubmissionStatus('initial');
     const { name, value } = e.target;
     if (name === 'from_time') {
       const [hours, minutes] = value.split(':');
@@ -83,7 +78,7 @@ const [_formState, formSubmitAction ] = useActionState(handleSubmit as any, form
     }
   };
   
-  const { email, name, from_time } = formData;
+  const { email, name } = formData;
   const isInValidEmail = !!email && (!email.includes('onja.org') || !email.includes(name.toLowerCase()));
    
   return (
@@ -99,24 +94,28 @@ const [_formState, formSubmitAction ] = useActionState(handleSubmit as any, form
               {["Select an option", ...developers].map(name => <option key={name} value={name}>{name}</option>)}
             </select>
           </fieldset>
+          <fieldset className='name_select'>
+            <label htmlFor="mentor">Who did you pair with?</label>
+            <select required={name === 'Select an option'} onChange={handleFieldChange} id='mentor' name='mentor'>
+              {["Select an option", ...mentorNames].map(name => <option key={name} value={name}>{name}</option>)}
+            </select>
+          </fieldset>
           <fieldset className={`email_field ${isInValidEmail ? 'invalid' : ''}`}>
             <label htmlFor="email">Enter your Onja Mail?</label>
-            <input required onChange={handleFieldChange} type='email' name='email'/>
+            <input required onChange={handleFieldChange} type='email' name='email' id="email"/>
             {isInValidEmail ? <span>You must use your Onja email address which includes your name.</span> : ''}
           </fieldset>
           <fieldset>
-            <label htmlFor="date">When do you plan to have a session? Please select a date and time</label>
-            <div className='date_field'>
-              <input required onChange={handleFieldChange} type='date' name='date'/>
-              <div className='time_field'>
-                From <input required onChange={handleFieldChange} min="9:00" max="16:00" type='time' name='from_time'  /> 
-                to <input required onChange={handleFieldChange} min={from_time} max="16:30" type='time' name='end_time'  />
-              </div>
-            </div>
+            <label htmlFor="date">When was the session?</label>
+            <input required onChange={handleFieldChange} type='date' name='date' id="date"/>
           </fieldset>
           <fieldset>
-            <label htmlFor="goal">What specific thing do you want to look into together? Leave it blank if you don't have anything in mind.</label>
-            <textarea onChange={handleFieldChange} name='goal' />
+            <label htmlFor="dev_insight">How did you find the session?</label>
+            <textarea onChange={handleFieldChange} name='dev_insight' id="dev_insight" />
+          </fieldset>
+          <fieldset>
+            <label htmlFor="feedback">What would you like to improve on with the session?</label>
+            <textarea onChange={handleFieldChange} name='feedback' id="feedback" />
           </fieldset>
           <button disabled={submissionStatus === 'submitting'} className='submit'>Submit</button>
           {submissionStatus === 'submitted' ? 
