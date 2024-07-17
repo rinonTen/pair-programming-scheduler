@@ -11,8 +11,7 @@ interface FormState {
   feedback: string;
 };
 
-const BACKEND_URL = "http://localhost:4000";
-// https://pair-programming-scheduler.onrender.com
+const BACKEND_URL = "https://pair-programming-scheduler.onrender.com";
 const formInitialState = {
   name: '',
   mentor: '',
